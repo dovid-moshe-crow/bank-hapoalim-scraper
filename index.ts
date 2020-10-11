@@ -104,7 +104,7 @@ export const getAccountData = async (credentials: Credentials): Promise<Scraping
       txns,
     });
   }
-  var currentBalance = await page?.$eval(
+  var currentBalance = await page.$eval(
     ".currentBalance",
     (el) => el.innerHTML
   );
