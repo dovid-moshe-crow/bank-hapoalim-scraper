@@ -15,7 +15,11 @@ const DATE_FORMAT = "YYYYMMDD";
 
 let browser: Browser;
 
-
+export type ScrapingResult = {
+  currentBalance:string,
+  success: boolean,
+  accounts: TransactionsAccount[],
+}
 
 
 const login = async (page: Page, { password, userCode }: Credentials) => {
@@ -49,7 +53,7 @@ export const close = async () => {
   await browser.close();
 };
 
-export const getAccountData = async (credentials: Credentials) => {
+export const getAccountData = async (credentials: Credentials): Promise<ScrapingResult> => {
   const page = await browser.newPage();
   await blockAssets(page);
   await login(page, credentials);
@@ -107,7 +111,7 @@ export const getAccountData = async (credentials: Credentials) => {
 
   await page.close();
 
-  const accountData = {
+  const accountData:ScrapingResult = {
     currentBalance,
     success: true,
     accounts,
