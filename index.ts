@@ -49,7 +49,7 @@ export const close = async () => {
   await browser.close();
 };
 
-const getAccountData = async (credentials: Credentials) => {
+export const getAccountData = async (credentials: Credentials) => {
   const page = await browser.newPage();
   await blockAssets(page);
   await login(page, credentials);
