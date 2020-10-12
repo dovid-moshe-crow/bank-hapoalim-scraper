@@ -25,8 +25,8 @@ export type ScrapingResult = {
 const login = async (page: Page, { password, userCode }: Credentials) => {
   await page.goto(`${BASE_URL}/ng-portals/auth/he/?reqName=getLogonPage`);
   await page.waitForSelector("#userCode");
-  await page.type("#userCode", userCode);
-  await page.type("#password", password);
+  await page.type("#userCode", userCode ?? "");
+  await page.type("#password", password ?? "");
   await page.click(".login-btn");
 };
 
@@ -121,8 +121,8 @@ export const getAccountData = async (credentials: Credentials): Promise<Scraping
 };
 
 interface Credentials {
-  userCode: string;
-  password: string;
+  userCode: string | null;
+  password: string | null;
 }
 
 function convertTransactions(txns: ScrapedTransaction[]): Transaction[] {

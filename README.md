@@ -7,7 +7,7 @@
 ```javascript
 import { setup, close, getAccountData } from "bank-hapoalim-scraper";
 
-async () => {
+(async () => {
   const headless = true;
   await setup(headless);
   const credentials = {
@@ -18,5 +18,5 @@ async () => {
   const result = await getAccountData(credentials);
   console.log(result);
   await close();
-};
+})();
 ```

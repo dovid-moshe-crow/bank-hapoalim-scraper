@@ -1,6 +1,6 @@
 {
   "name": "bank-hapoalim-scraper",
-  "version": "0.9.7",
+  "version": "0.9.8",
   "description": "",
   "type": "commonjs",
   "module": "dist/index.js",
