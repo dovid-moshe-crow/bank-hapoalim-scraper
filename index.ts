@@ -120,7 +120,7 @@ export const getAccountData = async (credentials: Credentials): Promise<Scraping
   return accountData;
 };
 
-interface Credentials {
+export interface Credentials {
   userCode: string | null;
   password: string | null;
 }
