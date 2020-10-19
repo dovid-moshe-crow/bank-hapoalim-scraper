@@ -33,14 +33,21 @@ async function getCurrentBalance(
     await page.waitForSelector(".currentBalance", { timeout: 10000 });
     return await ResultAsync.fromPromise(
       page.$eval(".currentBalance", (el) => el.innerHTML),
-      () => new BankhapoalimError("Could't get current balance",ErrorType.GeneralError)
+      () =>
+        new BankhapoalimError(
+          "Could't get current balance",
+          ErrorType.GeneralError
+        )
     );
   } catch (e) {
     return errAsync(new BankhapoalimError(e.message, ErrorType.GeneralError));
   }
 }
 
-const getTransactionsAccount = async (page: Page): Promise<ResultAsync<TransactionsAccount[], BankhapoalimError>> => {
+const getTransactionsAccount = async (
+  page: Page,
+  startDate: Date
+): Promise<ResultAsync<TransactionsAccount[], BankhapoalimError>> => {
   try {
     const restContext = await getRestContext(page);
     const apiSiteUrl = `${BASE_URL}/${restContext}`;
@@ -78,7 +85,14 @@ const getTransactionsAccount = async (page: Page): Promise<ResultAsync<Transacti
       });
     }
 
-    return ResultAsync.fromPromise((async () => accounts)(),() => new BankhapoalimError("Could't get Transactions", ErrorType.GeneralError));
+    return ResultAsync.fromPromise(
+      (async () => accounts)(),
+      () =>
+        new BankhapoalimError(
+          "Could't get Transactions",
+          ErrorType.GeneralError
+        )
+    );
   } catch (e) {
     return errAsync(new BankhapoalimError(e.message, ErrorType.GeneralError));
   }
@@ -94,14 +108,22 @@ async function login(
     await page.type("#userCode", userCode ?? "");
     await page.type("#password", password ?? "");
     await page.click(".login-btn");
-    return ResultAsync.fromPromise(Promise.resolve(),() => new BankhapoalimError("Can't Login to Bank Hapoalim", ErrorType.GeneralError));
+    return ResultAsync.fromPromise(
+      Promise.resolve(),
+      () =>
+        new BankhapoalimError(
+          "Can't Login to Bank Hapoalim",
+          ErrorType.GeneralError
+        )
+    );
   } catch (e) {
     return errAsync(new BankhapoalimError(e.message, ErrorType.GeneralError));
   }
 }
 
 export async function getAccountData(
-  credentials: Credentials
+  credentials: Credentials,
+  startDate: Date
 ): Promise<ScrapingResult> {
   const page = await browser.newPage();
   await blockAssets(page);
@@ -116,9 +138,9 @@ export async function getAccountData(
     if (redirect.isErr()) {
       throw redirect.error;
     }
-    
-    const accounts = await getTransactionsAccount(page);
-   
+
+    const accounts = await getTransactionsAccount(page, startDate);
+
     if (accounts.isErr()) {
       throw accounts.error;
     }

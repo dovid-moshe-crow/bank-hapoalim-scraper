@@ -8,26 +8,25 @@ export type FetchedAccountData = {
 }[];
 
 export type FetchedAccountTransactionsData = {
-    transactions: ScrapedTransaction[];
+  transactions: ScrapedTransaction[];
+};
+
+interface ScrapedTransaction {
+  serialNumber?: number;
+  activityDescription?: string;
+  eventAmount: number;
+  valueDate?: string;
+  eventDate?: string;
+  referenceNumber?: number;
+  ScrapedTransaction?: string;
+  eventActivityTypeCode: number;
+  beneficiaryDetailsData?: {
+    partyHeadline?: string;
+    partyName?: string;
+    messageHeadline?: string;
+    messageDetail?: string;
   };
-  
-  interface ScrapedTransaction {
-    serialNumber?: number;
-    activityDescription?: string;
-    eventAmount: number;
-    valueDate?: string;
-    eventDate?: string;
-    referenceNumber?: number;
-    ScrapedTransaction?: string;
-    eventActivityTypeCode: number;
-    beneficiaryDetailsData?: {
-      partyHeadline?: string;
-      partyName?: string;
-      messageHeadline?: string;
-      messageDetail?: string;
-    };
-  }
-  
+}
 
 export class FetchData {
   static async fetchGetWithinPage<TResult>(
@@ -95,7 +94,8 @@ export class FetchData {
             // eslint-disable-next-line prefer-object-spread
             headers: Object.assign(
               {
-                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "Content-Type":
+                  "application/x-www-form-urlencoded; charset=UTF-8",
               },
               extraHeaders
             ),
